@@ -9,8 +9,14 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add DbContext
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+//builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
+// NEW (SQLite)
+builder.Services.AddDbContext<ApplicationDbContext>(opts =>
+    opts.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 // Add JWT Settings and Authentication
 builder.Services.Configure<JwtSettings>(

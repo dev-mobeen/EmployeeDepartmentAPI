@@ -4,6 +4,7 @@
 # Ignore build outputs
 bin/
 obj/
+/out/
 
 # Visual Studio user files
 *.suo
