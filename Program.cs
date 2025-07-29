@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,8 +15,22 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 // NEW (SQLite)
-builder.Services.AddDbContext<ApplicationDbContext>(opts =>
-    opts.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+//builder.Services.AddDbContext<ApplicationDbContext>(opts =>
+//    opts.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// decide based on environment
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddDbContext<ApplicationDbContext>(opts =>
+        opts.UseSqlServer(connectionString));
+}
+else
+{
+    builder.Services.AddDbContext<ApplicationDbContext>(opts =>
+        opts.UseNpgsql(connectionString));
+}
 
 
 // Add JWT Settings and Authentication
