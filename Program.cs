@@ -21,19 +21,16 @@ var builder = WebApplication.CreateBuilder(args);
 // decide based on environment
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddDbContext<ApplicationDbContext>(opts =>
-    opts.UseNpgsql(connectionString));
-
-//if (builder.Environment.IsDevelopment())
-//{
-//    builder.Services.AddDbContext<ApplicationDbContext>(opts =>
-//        opts.UseSqlServer(connectionString));
-//}
-//else
-//{
-//    builder.Services.AddDbContext<ApplicationDbContext>(opts =>
-//        opts.UseNpgsql(connectionString));
-//}
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddDbContext<ApplicationDbContext>(opts =>
+        opts.UseSqlServer(connectionString));
+}
+else
+{
+    builder.Services.AddDbContext<ApplicationDbContext>(opts =>
+        opts.UseNpgsql(connectionString));
+}
 
 
 // Add JWT Settings and Authentication
