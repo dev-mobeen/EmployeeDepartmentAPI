@@ -4,9 +4,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Npgsql;
-using Npgsql.EntityFrameworkCore.PostgreSQL;
 using System.Text;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,10 +28,8 @@ if (builder.Environment.IsDevelopment())
 }
 else
 {
-    var rawUri = builder.Configuration.GetConnectionString("DefaultConnection");
-    var connString = new NpgsqlConnectionStringBuilder(rawUri).ToString();
     builder.Services.AddDbContext<ApplicationDbContext>(opts =>
-        opts.UseNpgsql(connString));
+        opts.UseNpgsql(connectionString));
 }
 
 
